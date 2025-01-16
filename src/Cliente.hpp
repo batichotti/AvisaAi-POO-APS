@@ -9,6 +9,7 @@ enum class CategoriaCliente {
 
 class Cliente {
 public:
+    Cliente();
     Cliente(int id, const std::string& nome, const std::string& documentoIdentificador, const std::string& endereco, const std::string& telefone, const std::string& email, CategoriaCliente categoria);
     int getId() const;
     std::string getNome() const;
