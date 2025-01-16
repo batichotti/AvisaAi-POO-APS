@@ -1,16 +1,14 @@
 #include "PedidoManager.hpp"
-#include "Pedido.hpp"
-#include "PedidoDao.hpp"
-#include "DvoManager.hpp"
 
-PedidoManager::PedidoManager(DaoManager* daoManager) {
+PedidoManager::PedidoManager(DaoManager* daoManager, DvoManager* dvoManager) {
     this->daoManager = daoManager;
+    this->dvoManager = dvoManager;
     this->daoPedido = daoManager->getPedidoDao();
-    this->dvoManager = daoManager->getDvoManager();
+    this->clienteDvo = dvoManager->getClienteDvo();
 }
 
 std::vector<Pedido> PedidoManager::listePedidos(std::string documentoIdentificador) {
-    if (dvoManager->isDocumentoValido(documentoIdentificador)) {
+    if (clienteDvo->validarDocumento(documentoIdentificador)) {
         return daoPedido->retrievePedidosPorCliente(documentoIdentificador);
     } else {
         return std::vector<Pedido>();

@@ -1,9 +1,7 @@
 #include "PedidoDao.hpp"
 
-// ...existing code...
 
 PedidoDao::PedidoDao() {
-    // Constructor implementation
 }
 
 void PedidoDao::addPedido(const Pedido& pedido) {
@@ -21,4 +19,14 @@ Pedido PedidoDao::getPedidoById(int id) {
 
 std::vector<Pedido> PedidoDao::getAllPedidos() {
     return pedidos;
+}
+
+std::vector<Pedido> PedidoDao::retrievePedidosPorCliente(const std::string& clienteDocumentoIdentificador) {
+    std::vector<Pedido> pedidosCliente;
+    for (const auto& pedido : pedidos) {
+        if (pedido.getClienteDocumentoIdentificador() == clienteDocumentoIdentificador) {
+            pedidosCliente.push_back(pedido);
+        }
+    }
+    return pedidosCliente;
 }

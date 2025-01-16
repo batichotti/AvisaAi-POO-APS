@@ -1,10 +1,11 @@
 #include "Pedido.hpp"
+#include <ctime>
+#include <string>
 
+Pedido::Pedido() : id(0), date(std::time(nullptr)), descricao(""), situacao(ABERTO), clienteDocumentoIdentificador("") {}
 
-Pedido::Pedido() : id(0), date(std::time(nullptr)), descricao(""), situacao(ABERTO) {}
-
-Pedido::Pedido(int id, std::time_t date, const std::string& descricao, Situacao situacao)
-    : id(id), date(date), descricao(descricao), situacao(situacao) {}
+Pedido::Pedido(int id, std::time_t date, const std::string& descricao, Situacao situacao, const std::string& clienteDocumentoIdentificador)
+    : id(id), date(date), descricao(descricao), situacao(situacao), clienteDocumentoIdentificador(clienteDocumentoIdentificador) {}
 
 int Pedido::getId() const {
     return id;
@@ -20,4 +21,8 @@ std::string Pedido::getDescricao() const {
 
 Situacao Pedido::getSituacao() const {
     return situacao;
+}
+
+std::string Pedido::getClienteDocumentoIdentificador() const {
+    return clienteDocumentoIdentificador;
 }
