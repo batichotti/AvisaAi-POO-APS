@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-AvisaAi-POO-APS is a software project developed as part of a college course on software analysis and design. The project emphasizes architectural aspects of the code, object-oriented programming (OOP), and the SOLID principles.
+AvisaAi-POO-APS is a software project developed as part of a university course on software analysis and design. The project emphasizes architectural aspects of the code, object-oriented programming (OOP), and the SOLID principles.
 
 ## Objectives
 
