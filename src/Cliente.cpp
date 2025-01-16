@@ -1,6 +1,6 @@
 #include "Cliente.hpp"
 
-Cliente::Cliente(int id, const std::string& nome, const std::string& documentoIdentificador, const std::string& endereco, const std::string& telefone, const std::string& email, const std::string& categoria)
+Cliente::Cliente(int id, const std::string& nome, const std::string& documentoIdentificador, const std::string& endereco, const std::string& telefone, const std::string& email, CategoriaCliente categoria)
     : id(id), nome(nome), documentoIdentificador(documentoIdentificador), endereco(endereco), telefone(telefone), email(email), categoria(categoria) {}
 
 int Cliente::getId() const {
@@ -27,8 +27,6 @@ std::string Cliente::getEmail() const {
     return email;
 }
 
-std::string Cliente::getCategoria() const {
+CategoriaCliente Cliente::getCategoria() const {
     return categoria;
 }
-
-// ...existing code...

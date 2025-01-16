@@ -8,5 +8,5 @@ ClienteManager::ClienteManager(DaoManager* daoManager) {
 }
 
 std::vector<Cliente> ClienteManager::listeClientes() {
-    return daoCliente->getClientes();
+    return daoCliente->list();
 }

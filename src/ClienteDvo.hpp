@@ -1,15 +1,11 @@
 #pragma once
 
 #include <string>
+#include "Cliente.hpp"
 
-enum class CategoriaCliente {
-    PESSOA_JURIDICA,
-    PESSOA_FISICA
-};
-
-class Cliente {
+class ClienteDvo {
 public:
-    Cliente(int id, const std::string& nome, const std::string& documentoIdentificador, const std::string& endereco, const std::string& telefone, const std::string& email, CategoriaCliente categoria);
+    ClienteDvo(int id, const std::string& nome, const std::string& documentoIdentificador, const std::string& endereco, const std::string& telefone, const std::string& email, CategoriaCliente categoria);
     int getId() const;
     std::string getNome() const;
     std::string getDocumentoIdentificador() const;
@@ -17,6 +13,7 @@ public:
     std::string getTelefone() const;
     std::string getEmail() const;
     CategoriaCliente getCategoria() const;
+    bool validarDocumento() const;
 
 private:
     int id;

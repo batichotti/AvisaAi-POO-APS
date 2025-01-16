@@ -5,5 +5,5 @@
 
 class ClienteDao {
 public:
-    std::vector<Cliente> getClientes();
+    std::vector<Cliente> list();
 };

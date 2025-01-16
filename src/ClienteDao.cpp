@@ -1,6 +1,5 @@
 #include "ClienteDao.hpp"
 
-
-std::vector<Cliente> ClienteDao::getClientes() {
+std::vector<Cliente> ClienteDao::list() {
     return std::vector<Cliente>();
 }
