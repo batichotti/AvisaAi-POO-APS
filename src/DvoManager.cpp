@@ -1,9 +1,9 @@
 #include "DvoManager.hpp"
 
 DvoManager::DvoManager() {
-    
+    clienteDvo = new ClienteDvo();
 }
 
-std::vector<ClienteDvo> DvoManager::getClienteDvo() {
+ClienteDvo* DvoManager::getClienteDvo() {
     return clienteDvo;
 }
