@@ -48,3 +48,7 @@ void PedidoDao::removerPedido(int id) {
         }
     }
 }
+
+void PedidoDao::salvarPedido(const Pedido& pedido) {
+    pedidos.push_back(pedido);
+}

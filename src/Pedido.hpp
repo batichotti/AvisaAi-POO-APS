@@ -4,9 +4,11 @@
 #include <ctime>
 
 enum Situacao {
-    QUITADO,
+    ENTREGUE,
+    RESOLVIDO,
+    EM_ANDAMENTO,
     ABERTO,
-    PARCIALMENTE_PAGO
+    CANCELADO
 };
 
 class Pedido {
