@@ -21,7 +21,7 @@ std::vector<Pedido> PedidoDao::getAllPedidos() {
     return pedidos;
 }
 
-std::vector<Pedido> PedidoDao::retrievePedidosPorCliente(const std::string& clienteDocumentoIdentificador) {
+std::vector<Pedido> PedidoDao::busquePedidosCliente(const std::string& clienteDocumentoIdentificador) {
     std::vector<Pedido> pedidosCliente;
     for (const auto& pedido : pedidos) {
         if (pedido.getClienteDocumentoIdentificador() == clienteDocumentoIdentificador) {

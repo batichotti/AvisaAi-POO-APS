@@ -10,7 +10,7 @@ public:
     std::vector<Pedido> getAllPedidos();
     void atualizarPedido(const Pedido& pedido);
     void removerPedido(int id);
-    std::vector<Pedido> retrievePedidosPorCliente(const std::string& clienteDocumentoIdentificador);
+    std::vector<Pedido> busquePedidosCliente(const std::string& clienteDocumentoIdentificador);
 private:
     std::vector<Pedido> pedidos;
 };
