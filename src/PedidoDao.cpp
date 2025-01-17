@@ -30,3 +30,21 @@ std::vector<Pedido> PedidoDao::retrievePedidosPorCliente(const std::string& clie
     }
     return pedidosCliente;
 }
+
+void PedidoDao::atualizarPedido(const Pedido& pedido) {
+    for (size_t i = 0; i < pedidos.size(); ++i) {
+        if (pedidos[i].getId() == pedido.getId()) {
+            pedidos[i] = pedido;
+            return;
+        }
+    }
+}
+
+void PedidoDao::removerPedido(int id) {
+    for (size_t i = 0; i < pedidos.size(); ++i) {
+        if (pedidos[i].getId() == id) {
+            pedidos.erase(pedidos.begin() + i);
+            return;
+        }
+    }
+}

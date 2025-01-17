@@ -5,5 +5,11 @@
 
 class ClienteDao {
 public:
-    std::vector<Cliente> list();
+    void adicionarCliente(const Cliente& cliente);
+    Cliente buscarCliente(int id);
+    std::vector<Cliente> listarClientes();
+    void atualizarCliente(const Cliente& cliente);
+    void removerCliente(int id);
+private:
+    std::vector<Cliente> clientes;
 };
