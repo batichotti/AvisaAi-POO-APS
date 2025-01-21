@@ -12,15 +12,22 @@ enum FormaPagamento {
     CHEQUE
 };
 
+enum SituacaoPagamento {
+    ABERTO,
+    QUITADO,
+    PARCIALMENTE_PAGO
+};
+
 class Pagamento {
 public:
     Pagamento();
-    Pagamento(int id, float valor, std::time_t data, FormaPagamento forma);
+    Pagamento(int id, float valor, std::time_t data, FormaPagamento forma, SituacaoPagamento situacao);
 
     int getId() const;
     float getValor() const;
     std::time_t getData() const;
     FormaPagamento getForma() const;
+    SituacaoPagamento getSituacao() const;
     int getPedidoId() const;
 
 private:
@@ -28,5 +35,6 @@ private:
     float valor;
     std::time_t data;
     FormaPagamento forma;
+    SituacaoPagamento situacao;
     int pedidoId;
 };
