@@ -19,6 +19,6 @@ Cliente ClienteManager::busqueCliente(const std::string& documento) {
     if (documentoValido) {
         return daoCliente->retrieve(documento);
     } else {
-        std::cout << "Documento inválido" << std::endl;   
+        return Cliente(); 
     }
 }

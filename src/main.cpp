@@ -19,14 +19,19 @@ public:
 
     void execute() override {
         std::string documento, descricao;
-        std::cout << "Enter client document: ";
+        std::cout << "Digite o documento do cliente: ";
         std::cin >> documento;
-        std::cout << "Enter order description: ";
+        std::cout << "Digite a descrição do pedido: ";
         std::cin.ignore();
         std::getline(std::cin, descricao);
 
         Cliente cliente = clienteManager->busqueCliente(documento);
-        pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
+        if (!cliente.getDocumentoIdentificador().empty()) {
+            pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
+        } else {
+            std::cout << "Documento do cliente inválido" << std::endl;
+        }
+        
     }
 
     std::string getName() override {
@@ -37,7 +42,7 @@ public:
 class CadastrarPagamento : public UseCase {
 public:
     void execute() override {
-        std::cout << "Executing Cadastrar Pagamento" << std::endl;
+        std::cout << "Executando Cadastrar Pagamento" << std::endl;
     }
     std::string getName() override {
         return "Cadastrar Pagamento";
@@ -47,7 +52,7 @@ public:
 class AtualizarSituacaoPedido : public UseCase {
 public:
     void execute() override {
-        std::cout << "Executing Atualizar Situacao Pedido" << std::endl;
+        std::cout << "Executando Atualizar Situação do Pedido" << std::endl;
     }
     std::string getName() override {
         return "Atualizar Situacao Pedido";
@@ -57,7 +62,7 @@ public:
 class AtualizarSituacaoPagamento : public UseCase {
 public:
     void execute() override {
-        std::cout << "Executing Atualizar Situacao Pagamento" << std::endl;
+        std::cout << "Executando Atualizar Situação do Pagamento" << std::endl;
     }
     std::string getName() override {
         return "Atualizar Situacao Pagamento";
@@ -67,7 +72,7 @@ public:
 class BuscarPedido : public UseCase {
 public:
     void execute() override {
-        std::cout << "Executing Buscar Pedido" << std::endl;
+        std::cout << "Executando Buscar Pedido" << std::endl;
     }
     std::string getName() override {
         return "Buscar Pedido";
@@ -77,7 +82,7 @@ public:
 class BuscarPagamento : public UseCase {
 public:
     void execute() override {
-        std::cout << "Executing Buscar Pagamento" << std::endl;
+        std::cout << "Executando Buscar Pagamento" << std::endl;
     }
     std::string getName() override {
         return "Buscar Pagamento";
@@ -93,18 +98,18 @@ public:
     }
 
     void display() {
-        std::cout << "Main Menu" << std::endl;
+        std::cout << "Menu Principal" << std::endl;
         for (size_t i = 0; i < useCases.size(); ++i) {
             std::cout << i + 1 << ". " << useCases[i]->getName() << std::endl;
         }
-        std::cout << "0. Exit" << std::endl;
+        std::cout << "0. Sair" << std::endl;
     }
 
     void executeUseCase(int choice) {
         if (choice > 0 && choice <= useCases.size()) {
             useCases[choice - 1]->execute();
         } else {
-            std::cout << "Invalid choice" << std::endl;
+            std::cout << "Escolha inválida" << std::endl;
         }
     }
 };
@@ -126,13 +131,13 @@ int main() {
     int choice;
     do {
         menu.display();
-        std::cout << "Enter your choice: ";
+        std::cout << "Digite sua escolha: ";
         std::cin >> choice;
         if (choice != 0) {
             menu.executeUseCase(choice);
         }
     } while (choice != 0);
 
-    std::cout << "Exiting..." << std::endl;
+    std::cout << "Saindo..." << std::endl;
     return 0;
 }
