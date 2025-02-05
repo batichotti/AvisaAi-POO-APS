@@ -18,7 +18,7 @@ std::vector<Pedido> PedidoManager::listePedidos(std::string documentoIdentificad
 
 void PedidoManager::criePedido(const std::string& clienteDocumentoIdentificador, int id, std::time_t date, const std::string& descricao) {
     if (clienteDvo->validarDocumento(clienteDocumentoIdentificador)) {
-        Pedido novoPedido(id, date, descricao, ABERTO, clienteDocumentoIdentificador);
+        Pedido novoPedido(id, date, descricao, Situacao::ABERTO, clienteDocumentoIdentificador);
         daoPedido->salvarPedido(novoPedido);
     } else {
         throw std::invalid_argument("Documento inválido");
