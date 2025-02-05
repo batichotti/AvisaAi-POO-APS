@@ -2,11 +2,11 @@
 
 std::vector<Pagamento> pagamentos;
 
-void PagamentoDAO::adicionarPagamento(const Pagamento& pagamento) {
+void PagamentoDao::adicionarPagamento(const Pagamento& pagamento) {
     pagamentos.push_back(pagamento);
 }
 
-Pagamento PagamentoDAO::buscarPagamento(int id) {
+Pagamento PagamentoDao::buscarPagamento(int id) {
     for (size_t i = 0; i < pagamentos.size(); ++i) {
         if (pagamentos[i].getId() == id) {
             return pagamentos[i];
@@ -15,11 +15,11 @@ Pagamento PagamentoDAO::buscarPagamento(int id) {
     return Pagamento();
 }
 
-std::vector<Pagamento> PagamentoDAO::listarPagamentos() {
+std::vector<Pagamento> PagamentoDao::listarPagamentos() {
     return pagamentos;
 }
 
-void PagamentoDAO::atualizarPagamento(const Pagamento& pagamento) {
+void PagamentoDao::atualizarPagamento(const Pagamento& pagamento) {
     for (size_t i = 0; i < pagamentos.size(); ++i) {
         if (pagamentos[i].getId() == pagamento.getId()) {
             pagamentos[i] = pagamento;
@@ -28,7 +28,7 @@ void PagamentoDAO::atualizarPagamento(const Pagamento& pagamento) {
     }
 }
 
-void PagamentoDAO::removerPagamento(int id) {
+void PagamentoDao::removerPagamento(int id) {
     for (size_t i = 0; i < pagamentos.size(); ++i) {
         if (pagamentos[i].getId() == id) {
             pagamentos.erase(pagamentos.begin() + i);

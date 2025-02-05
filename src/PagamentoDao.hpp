@@ -3,7 +3,7 @@
 #include "Pagamento.hpp"
 #include <vector>
 
-class PagamentoDAO {
+class PagamentoDao {
 public:
     void adicionarPagamento(const Pagamento& pagamento);
     Pagamento buscarPagamento(int id);
