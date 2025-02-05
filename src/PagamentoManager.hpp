@@ -9,5 +9,5 @@ public:
     Pagamento buscarPagamentoPorPedido(const Pedido& pedido);
 
 private:
-    PagamentoDAO pagamentoDAO;
+    PagamentoDao pagamentoDao;
 };

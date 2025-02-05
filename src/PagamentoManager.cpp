@@ -1,7 +1,7 @@
 #include "PagamentoManager.hpp"
 
 Pagamento PagamentoManager::buscarPagamentoPorPedido(const Pedido& pedido) {
-    std::vector<Pagamento> pagamentos = pagamentoDAO.listarPagamentos();
+    std::vector<Pagamento> pagamentos = pagamentoDao.listarPagamentos();
 
     for (const auto& pagamento : pagamentos) {
         if (pagamento.getPedidoId() == pedido.getId()) {
@@ -9,6 +9,5 @@ Pagamento PagamentoManager::buscarPagamentoPorPedido(const Pedido& pedido) {
         }
     }
 
-    // Retornar um pagamento padrão ou lançar uma exceção se não encontrado
     return Pagamento();
 }

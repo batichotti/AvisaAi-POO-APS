@@ -5,6 +5,7 @@
 
 class PedidoDao {
 public:
+    PedidoDao();
     void addPedido(const Pedido& pedido);
     Pedido getPedidoById(int id);
     std::vector<Pedido> getAllPedidos();

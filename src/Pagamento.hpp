@@ -13,7 +13,7 @@ enum FormaPagamento {
 };
 
 enum SituacaoPagamento {
-    ABERTO,
+    EM_HAVER,
     QUITADO,
     PARCIALMENTE_PAGO
 };
