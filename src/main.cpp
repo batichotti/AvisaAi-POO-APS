@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include "PedidoManager.hpp"
+#include "ClienteManager.hpp"
 
 class UseCase {
 public:
@@ -8,10 +10,30 @@ public:
 };
 
 class RealizarPedido : public UseCase {
+private:
+    PedidoManager* pedidoManager;
+    ClienteManager* clienteManager;
+
 public:
+    RealizarPedido(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
+
     void execute() override {
-        std::cout << "Executing Realizar Pedido" << std::endl;
+        std::string documento, descricao;
+        std::cout << "Enter client document: ";
+        std::cin >> documento;
+        std::cout << "Enter order description: ";
+        std::cin.ignore();
+        std::getline(std::cin, descricao);
+
+        Cliente cliente = clienteManager->busqueCliente(documento);
+        if (cliente.getDocumentoIdentificador() == documento) {
+            pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
+            std::cout << "Order created successfully" << std::endl;
+        } else {
+            std::cout << "Client not found" << std::endl;
+        }
     }
+
     std::string getName() override {
         return "Realizar Pedido";
     }
@@ -93,8 +115,13 @@ public:
 };
 
 int main() {
+    DaoManager daoManager;
+    DvoManager dvoManager;
+    PedidoManager pedidoManager(&daoManager, &dvoManager);
+    ClienteManager clienteManager(&daoManager, &dvoManager);
+
     Menu menu;
-    menu.addUseCase(new RealizarPedido());
+    menu.addUseCase(new RealizarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new CadastrarPagamento());
     menu.addUseCase(new AtualizarSituacaoPedido());
     menu.addUseCase(new AtualizarSituacaoPagamento());

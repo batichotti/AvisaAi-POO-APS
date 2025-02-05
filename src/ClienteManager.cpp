@@ -4,10 +4,9 @@
 #include "ClienteDvo.hpp"
 #include <stdexcept>
 
-ClienteManager::ClienteManager(DaoManager* daoManager, DvoManager* dvoManager) {
-    this->daoManager = daoManager;
+ClienteManager::ClienteManager(DaoManager* daoManager, DvoManager* dvoManager)
+    : daoManager(daoManager), dvoManager(dvoManager) {
     this->daoCliente = daoManager->getClienteDao();
-    this->dvoManager = dvoManager;
 }
 
 std::vector<Cliente> ClienteManager::listeClientes() {
