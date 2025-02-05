@@ -1,5 +1,5 @@
 #include "PedidoManager.hpp"
-#include <stdexcept>
+#include <iostream>
 
 PedidoManager::PedidoManager(DaoManager* daoManager, DvoManager* dvoManager) {
     this->daoManager = daoManager;
@@ -21,17 +21,17 @@ void PedidoManager::criePedido(const std::string& clienteDocumentoIdentificador,
         Pedido novoPedido(id, date, descricao, Situacao::ABERTO, clienteDocumentoIdentificador);
         daoPedido->salvarPedido(novoPedido);
     } else {
-        throw std::invalid_argument("Documento inválido");
+        std::cout << "Documento inválido" << std::endl;
     }
 }
 
 void PedidoManager::realizarPedido(const std::string& documento, const std::string& descricao, std::time_t date) {
     if (!clienteDvo->validarDocumento(documento)) {
-        throw std::invalid_argument("Documento inválido");
+        std::cout << "Documento inválido" << std::endl;
     }
     Cliente cliente = daoManager->getClienteDao()->buscarCliente(documento);
     if (cliente.getDocumentoIdentificador().empty()) {
-        throw std::invalid_argument("Cliente não encontrado");
+        std::cout << "Cliente não encontrado" << std::endl;
     }
     int id = daoPedido->getAllPedidos().size() + 1;
     criePedido(documento, id, date, descricao);

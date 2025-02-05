@@ -26,12 +26,7 @@ public:
         std::getline(std::cin, descricao);
 
         Cliente cliente = clienteManager->busqueCliente(documento);
-        if (cliente.getDocumentoIdentificador() == documento) {
-            pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
-            std::cout << "Order created successfully" << std::endl;
-        } else {
-            std::cout << "Client not found" << std::endl;
-        }
+        pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
     }
 
     std::string getName() override {

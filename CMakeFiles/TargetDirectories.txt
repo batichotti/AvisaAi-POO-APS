@@ -1,3 +1,0 @@
-D:/user/OneDrive/Documents/GitHub/AvisaAi-POO-APS/CMakeFiles/AVISAAI.dir
-D:/user/OneDrive/Documents/GitHub/AvisaAi-POO-APS/CMakeFiles/edit_cache.dir
-D:/user/OneDrive/Documents/GitHub/AvisaAi-POO-APS/CMakeFiles/rebuild_cache.dir

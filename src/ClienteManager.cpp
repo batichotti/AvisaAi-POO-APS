@@ -2,7 +2,7 @@
 #include "Cliente.hpp"
 #include "ClienteDao.hpp"
 #include "ClienteDvo.hpp"
-#include <stdexcept>
+#include <iostream>
 
 ClienteManager::ClienteManager(DaoManager* daoManager, DvoManager* dvoManager)
     : daoManager(daoManager), dvoManager(dvoManager) {
@@ -19,6 +19,6 @@ Cliente ClienteManager::busqueCliente(const std::string& documento) {
     if (documentoValido) {
         return daoCliente->retrieve(documento);
     } else {
-        throw std::invalid_argument("Documento inválido");
+        std::cout << "Documento inválido" << std::endl;   
     }
 }
