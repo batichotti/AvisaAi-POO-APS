@@ -39,14 +39,14 @@ public:
     }
 };
 
-class CadastrarPagamento : public UseCase {
+class RealizarPagamento : public UseCase {
 private:
     PedidoManager* pedidoManager;
     ClienteManager* clienteManager;
     std::string documento;
 
 public:
-    CadastrarPagamento(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
+    RealizarPagamento(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
 
     void execute() override {
         std::cout << "Executando Cadastrar Pagamento" << std::endl;
@@ -139,7 +139,7 @@ int main() {
 
     Menu menu;
     menu.addUseCase(new RealizarPedido(&pedidoManager, &clienteManager));
-    menu.addUseCase(new CadastrarPagamento(&pedidoManager, &clienteManager));
+    menu.addUseCase(new RealizarPagamento(&pedidoManager, &clienteManager));
     menu.addUseCase(new AtualizarSituacaoPedido());
     menu.addUseCase(new AtualizarSituacaoPagamento());
     menu.addUseCase(new BuscarPedido());
