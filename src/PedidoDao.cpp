@@ -9,7 +9,7 @@ void PedidoDao::addPedido(const Pedido& pedido) {
 }
 
 Pedido PedidoDao::getPedidoById(int id) {
-    for (const auto& pedido : pedidos) {
+    for (const Pedido pedido : pedidos) {
         if (pedido.getId() == id) {
             return pedido;
         }
@@ -33,7 +33,7 @@ std::vector<Pedido> PedidoDao::busquePedidosCliente(const std::string& clienteDo
 
 std::vector<Pedido> PedidoDao::busquePedidosClienteSituacao(const std::string& clienteDocumentoIdentificador, Situacao situacao) {
     std::vector<Pedido> pedidosCliente;
-    for (const auto& pedido : pedidos) {
+    for (const Pedido pedido : pedidos) {
         if (pedido.getClienteDocumentoIdentificador() == clienteDocumentoIdentificador) {
             pedidosCliente.push_back(pedido);
         }
@@ -42,7 +42,7 @@ std::vector<Pedido> PedidoDao::busquePedidosClienteSituacao(const std::string& c
 }
 
 void PedidoDao::atualizarPedido(const Pedido& pedido) {
-    for (size_t i = 0; i < pedidos.size(); ++i) {
+    for (int i = 0; i < pedidos.size(); ++i) {
         if (pedidos[i].getId() == pedido.getId()) {
             pedidos[i] = pedido;
             return;
@@ -51,14 +51,10 @@ void PedidoDao::atualizarPedido(const Pedido& pedido) {
 }
 
 void PedidoDao::removerPedido(int id) {
-    for (size_t i = 0; i < pedidos.size(); ++i) {
+    for (int i = 0; i < pedidos.size(); ++i) {
         if (pedidos[i].getId() == id) {
             pedidos.erase(pedidos.begin() + i);
             return;
         }
     }
-}
-
-void PedidoDao::salvarPedido(const Pedido& pedido) {
-    pedidos.push_back(pedido);
 }
