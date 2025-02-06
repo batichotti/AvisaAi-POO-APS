@@ -40,9 +40,26 @@ public:
 };
 
 class CadastrarPagamento : public UseCase {
+private:
+    PedidoManager* pedidoManager;
+    ClienteManager* clienteManager;
+    std::string documento;
+
 public:
+    CadastrarPagamento(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
+
     void execute() override {
         std::cout << "Executando Cadastrar Pagamento" << std::endl;
+        std::cout << "Digite o documento do cliente para listar seus pedidos: ";
+        std::cin >> documento;
+
+        Cliente cliente = clienteManager->busqueCliente(documento);
+        if (!cliente.getDocumentoIdentificador().empty()) {
+            std::cout << "Pedidos do cliente " << cliente.getNome() << std::endl;
+            std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador(), Situacao::ABERTO);
+        } else {
+            std::cout << "Documento do cliente inválido" << std::endl;
+        }
     }
     std::string getName() override {
         return "Cadastrar Pagamento";
@@ -122,7 +139,7 @@ int main() {
 
     Menu menu;
     menu.addUseCase(new RealizarPedido(&pedidoManager, &clienteManager));
-    menu.addUseCase(new CadastrarPagamento());
+    menu.addUseCase(new CadastrarPagamento(&pedidoManager, &clienteManager));
     menu.addUseCase(new AtualizarSituacaoPedido());
     menu.addUseCase(new AtualizarSituacaoPagamento());
     menu.addUseCase(new BuscarPedido());

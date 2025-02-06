@@ -16,6 +16,14 @@ std::vector<Pedido> PedidoManager::listePedidos(std::string documentoIdentificad
     }
 }
 
+std::vector<Pedido> PedidoManager::listePedidosCliente(std::string documentoIdentificador, Situacao situacao) {
+    if (clienteDvo->validarDocumento(documentoIdentificador)) {
+        return daoPedido->busquePedidosClienteSituacao(documentoIdentificador, situacao);
+    } else {
+        return std::vector<Pedido>();
+    }
+}
+
 void PedidoManager::criePedido(const std::string& clienteDocumentoIdentificador, int id, std::time_t date, const std::string& descricao) {
     if (clienteDvo->validarDocumento(clienteDocumentoIdentificador)) {
         Pedido novoPedido(id, date, descricao, Situacao::ABERTO, clienteDocumentoIdentificador);

@@ -31,6 +31,16 @@ std::vector<Pedido> PedidoDao::busquePedidosCliente(const std::string& clienteDo
     return pedidosCliente;
 }
 
+std::vector<Pedido> PedidoDao::busquePedidosClienteSituacao(const std::string& clienteDocumentoIdentificador, Situacao situacao) {
+    std::vector<Pedido> pedidosCliente;
+    for (const auto& pedido : pedidos) {
+        if (pedido.getClienteDocumentoIdentificador() == clienteDocumentoIdentificador) {
+            pedidosCliente.push_back(pedido);
+        }
+    }
+    return pedidosCliente;
+}
+
 void PedidoDao::atualizarPedido(const Pedido& pedido) {
     for (size_t i = 0; i < pedidos.size(); ++i) {
         if (pedidos[i].getId() == pedido.getId()) {

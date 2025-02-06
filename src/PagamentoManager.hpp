@@ -7,7 +7,6 @@
 class PagamentoManager {
 public:
     Pagamento buscarPagamentoPorPedido(const Pedido& pedido);
-
 private:
     PagamentoDao pagamentoDao;
 };

@@ -12,6 +12,7 @@ public:
     void atualizarPedido(const Pedido& pedido);
     void removerPedido(int id);
     std::vector<Pedido> busquePedidosCliente(const std::string& clienteDocumentoIdentificador);
+    std::vector<Pedido> busquePedidosClienteSituacao(const std::string& clienteDocumentoIdentificador, Situacao situacao);
     void salvarPedido(const Pedido& pedido);
 private:
     std::vector<Pedido> pedidos;
