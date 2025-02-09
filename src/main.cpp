@@ -21,17 +21,18 @@ public:
         std::string documento, descricao;
         std::cout << "Digite o documento do cliente: ";
         std::cin >> documento;
+
+        Cliente cliente = clienteManager->busqueCliente(documento);
+        if (cliente.getDocumentoIdentificador().empty()) {
+            std::cout << "Documento do cliente inválido" << std::endl;
+            return;
+        }
+
         std::cout << "Digite a descrição do pedido: ";
         std::cin.ignore();
         std::getline(std::cin, descricao);
 
-        Cliente cliente = clienteManager->busqueCliente(documento);
-        if (!cliente.getDocumentoIdentificador().empty()) {
-            pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
-        } else {
-            std::cout << "Documento do cliente inválido" << std::endl;
-        }
-        
+        pedidoManager->criePedido(documento, 0, std::time(nullptr), descricao);
     }
 
     std::string getName() override {
@@ -54,15 +55,32 @@ public:
         std::cin >> documento;
 
         Cliente cliente = clienteManager->busqueCliente(documento);
-        if (!cliente.getDocumentoIdentificador().empty()) {
-            std::cout << "Pedidos do cliente " << cliente.getNome() << std::endl;
-            std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador(), Situacao::ABERTO);
-        } else {
+        if (cliente.getDocumentoIdentificador().empty()) {
             std::cout << "Documento do cliente inválido" << std::endl;
+            return;
+        }
+
+        std::cout << "Pedidos do cliente " << cliente.getNome() << std::endl;
+        std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador(), Situacao::ABERTO);
+        if (!pedidos.empty()) {
+            for (size_t i = 0; i < pedidos.size(); ++i) {
+                std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
+            }
+            int escolha;
+            std::cout << "Escolha o pedido para realizar o pagamento: ";
+            std::cin >> escolha;
+            if (escolha > 0 && escolha <= pedidos.size()) {
+                std::cout << "Pagamento realizado para o pedido ID: " << pedidos[escolha - 1].getId() << std::endl;
+            } else {
+                std::cout << "Escolha inválida" << std::endl;
+            }
+        } else {
+            std::cout << "Nenhum pedido em aberto encontrado para este cliente" << std::endl;
         }
     }
+
     std::string getName() override {
-        return "Cadastrar Pagamento";
+        return "Realizar Pagamento";
     }
 };
 
@@ -139,7 +157,25 @@ public:
     void mostrarTodosOsPedidos() {
         std::vector<Pedido> pedidos = daoManager->getPedidoDao()->getAllPedidos();
         for (const Pedido& pedido : pedidos) {
-            std::cout << "Pedido ID: " << pedido.getId() << ", Descrição: " << pedido.getDescricao() << ", Situação: " << pedido.getSituacao() << std::endl;
+            std::string situacao;
+            switch (pedido.getSituacao()) {
+                case Situacao::ENTREGUE:
+                    situacao = "ENTREGUE";
+                    break;
+                case Situacao::RESOLVIDO:
+                    situacao = "RESOLVIDO";
+                    break;
+                case Situacao::EM_ANDAMENTO:
+                    situacao = "EM ANDAMENTO";
+                    break;
+                case Situacao::ABERTO:
+                    situacao = "ABERTO";
+                    break;
+                case Situacao::CANCELADO:
+                    situacao = "CANCELADO";
+                    break;
+            }
+            std::cout << "Pedido ID: " << pedido.getId() << ", Descrição: " << pedido.getDescricao() << ", Situação: " << situacao << std::endl;
         }
     }
 };

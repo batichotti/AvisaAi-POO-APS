@@ -5,7 +5,10 @@ PedidoDao::PedidoDao() {
 }
 
 void PedidoDao::addPedido(const Pedido& pedido) {
-    pedidos.push_back(pedido);
+    int newId = pedidos.empty() ? 1 : pedidos.back().getId() + 1;
+    Pedido newPedido = pedido;
+    newPedido.setId(newId);
+    pedidos.push_back(newPedido);
 }
 
 Pedido PedidoDao::getPedidoById(int id) {

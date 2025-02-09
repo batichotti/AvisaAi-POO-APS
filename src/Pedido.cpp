@@ -26,3 +26,7 @@ Situacao Pedido::getSituacao() const {
 std::string Pedido::getClienteDocumentoIdentificador() const {
     return clienteDocumentoIdentificador;
 }
+
+void Pedido::setId(int newId) {
+    id = newId;
+}
