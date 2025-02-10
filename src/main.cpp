@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
+#include <cstdlib> //para std::rand
 #include <ctime>
+#include <iomanip> //para ter o std::setprecision
 #include "PedidoManager.hpp"
 #include "ClienteManager.hpp"
 #include "PagamentoManager.hpp"
@@ -50,14 +51,32 @@ private:
     PagamentoManager* pagamentoManager;
     std::string documento;
 
-    float calcularValorAPagar() {
-        return 50 + (std::rand() % 951); // Random value between 50 and 1000
+    float calcularValorAPagar(FormaPagamento fp) {
+        float valor = 50 + (std::rand() % 951);
+        switch (fp){
+        case FormaPagamento::DINHEIRO:
+            valor = valor * 0.95;
+            break;
+            case FormaPagamento::DEBITO:
+                valor = valor * 1.05;
+                break;
+            case FormaPagamento::CREDITO:
+                valor = valor * 1.1;
+                break;
+            case FormaPagamento::PIX:
+            valor = valor * 0.97;
+            break;
+        
+        default:
+            break;
+        }
+        return valor;
     }
 
 public:
     RealizarPagamento(PedidoManager* pm, ClienteManager* cm, PagamentoManager* pgm) 
         : pedidoManager(pm), clienteManager(cm), pagamentoManager(pgm) {
-        std::srand(std::time(nullptr)); // Seed for random number generation
+        std::srand(std::time(nullptr));
     }
 
     void execute() override {
@@ -81,9 +100,7 @@ public:
             std::cout << "Escolha o pedido para realizar o pagamento: ";
             std::cin >> escolha;
             if (escolha > 0 && escolha <= pedidos.size()) {
-                float valor = calcularValorAPagar();
-                std::cout << "Valor a ser pago: R$ " << valor << ",00" << std::endl;
-
+                
                 std::cout << "Escolha a forma de pagamento: " << std::endl;
                 std::cout << "1. Dinheiro" << std::endl;
                 std::cout << "2. Pix" << std::endl;
@@ -93,7 +110,7 @@ public:
                 std::cout << "6. Cheque" << std::endl;
                 int formaEscolha;
                 std::cin >> formaEscolha;
-
+                
                 FormaPagamento forma;
                 switch (formaEscolha) {
                     case 1: forma = FormaPagamento::DINHEIRO; break;
@@ -103,10 +120,12 @@ public:
                     case 5: forma = FormaPagamento::BOLETO; break;
                     case 6: forma = FormaPagamento::CHEQUE; break;
                     default: 
-                        std::cout << "Forma de pagamento inválida" << std::endl;
-                        return;
+                    std::cout << "Forma de pagamento inválida" << std::endl;
+                    return;
                 }
-
+                float valor = calcularValorAPagar(forma);
+                std::cout << "Valor a ser pago: R$ " << std::fixed << std::setprecision(2) << valor << std::endl;
+                
                 std::cout << "Confirma o pagamento? (s/n): ";
                 char confirmacao;
                 std::cin >> confirmacao;
