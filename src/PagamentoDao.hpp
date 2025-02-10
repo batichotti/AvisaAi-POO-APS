@@ -10,4 +10,5 @@ public:
     std::vector<Pagamento> listarPagamentos();
     void atualizarPagamento(const Pagamento& pagamento);
     void removerPagamento(int id);
+    Pagamento busquePagamentoPorPedidoId(int pedidoId);
 };

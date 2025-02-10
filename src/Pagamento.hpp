@@ -29,6 +29,7 @@ public:
     FormaPagamento getForma() const;
     SituacaoPagamento getSituacao() const;
     int getPedidoId() const;
+    FormaPagamento getFormaPagamento() const;
 
 private:
     int id;

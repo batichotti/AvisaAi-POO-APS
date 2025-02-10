@@ -36,3 +36,12 @@ void PagamentoDao::removerPagamento(int id) {
         }
     }
 }
+
+Pagamento PagamentoDao::busquePagamentoPorPedidoId(int pedidoId) {
+    for (const auto& pagamento : listarPagamentos()) {
+        if (pagamento.getPedidoId() == pedidoId) {
+            return pagamento;
+        }
+    }
+    return Pagamento();
+}

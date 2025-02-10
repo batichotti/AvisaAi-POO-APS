@@ -28,3 +28,7 @@ SituacaoPagamento Pagamento::getSituacao() const {
 int Pagamento::getPedidoId() const {
     return pedidoId;
 }
+
+FormaPagamento Pagamento::getFormaPagamento() const {
+    return forma;
+}
