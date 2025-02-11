@@ -30,3 +30,7 @@ std::string Pedido::getClienteDocumentoIdentificador() const {
 void Pedido::setId(int newId) {
     id = newId;
 }
+
+void Pedido::setSituacao(Situacao newSituacao) {
+    situacao = newSituacao;
+}

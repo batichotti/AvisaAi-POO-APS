@@ -44,7 +44,7 @@ std::vector<Pedido> PedidoDao::busquePedidosClienteSituacao(const std::string& c
     return pedidosCliente;
 }
 
-void PedidoDao::atualizarPedido(const Pedido& pedido) {
+void PedidoDao::atualizePedido(const Pedido& pedido) {
     for (int i = 0; i < pedidos.size(); ++i) {
         if (pedidos[i].getId() == pedido.getId()) {
             pedidos[i] = pedido;

@@ -22,6 +22,7 @@ public:
     Situacao getSituacao() const;
     std::string getClienteDocumentoIdentificador() const;
     void setId(int newId);
+    void setSituacao(Situacao newSituacao);
 
 private:
     int id;

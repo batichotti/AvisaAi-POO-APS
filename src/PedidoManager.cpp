@@ -48,3 +48,13 @@ void PedidoManager::realizarPedido(const std::string& documento, const std::stri
     int id = daoPedido->listePedidos().size() + 1;
     criePedido(documento, id, date, descricao);
 }
+
+void PedidoManager::atualizeSituacaoPedido(int id, Situacao situacao) {
+    Pedido pedido = daoPedido->getPedidoById(id);
+    if (pedido.getId() != 0) {
+        pedido.setSituacao(situacao);
+        daoPedido->atualizePedido(pedido);
+    } else {
+        std::cout << "Pedido não encontrado" << std::endl;
+    }
+}
