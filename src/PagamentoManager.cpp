@@ -5,7 +5,7 @@ PagamentoManager::PagamentoManager(DaoManager* daoManager) : daoManager(daoManag
 Pagamento PagamentoManager::buscarPagamentoPorPedido(const Pedido& pedido) {
     std::vector<Pagamento> pagamentos = daoManager->getPagamentoDao()->listarPagamentos();
 
-    for (const auto& pagamento : pagamentos) {
+    for (const Pagamento pagamento : pagamentos) {
         if (pagamento.getPedidoId() == pedido.getId()) {
             return pagamento;
         }

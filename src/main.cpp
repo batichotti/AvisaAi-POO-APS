@@ -172,7 +172,7 @@ public:
             std::cout << "Nenhum pedido encontrado para este cliente" << std::endl;
             return;
         }
-        for (size_t i = 0; i < pedidos.size(); ++i) {
+        for (int i = 0; i < pedidos.size(); ++i) {
             std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
         }
         int escolha;
@@ -214,7 +214,7 @@ public:
     void execute() override {
         std::vector<Pedido> pedidos = pedidoManager->listeTodosPedidos();
         if (!pedidos.empty()) {
-            for (size_t i = 0; i < pedidos.size(); ++i) {
+            for (int i = 0; i < pedidos.size(); ++i) {
                 std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
             }
             int escolha;
@@ -253,12 +253,12 @@ public:
     }
 };
 
-class MostrarTodosOsPedidos : public UseCase {
+class MostrarTodosPedidos : public UseCase {
 private:
     DaoManager* daoManager;
 
 public:
-    MostrarTodosOsPedidos(DaoManager* dm) : daoManager(dm) {}
+    MostrarTodosPedidos(DaoManager* dm) : daoManager(dm) {}
 
     void execute() override {
         std::vector<Pedido> pedidos = daoManager->getPedidoDao()->listePedidos();
@@ -294,12 +294,12 @@ public:
     }
 };
 
-class MostrarTodosOsPagamentos : public UseCase {
+class MostrarTodosPagamentos : public UseCase {
 private:
     PagamentoManager* pagamentoManager;
 
 public:
-    MostrarTodosOsPagamentos(PagamentoManager* pm) : pagamentoManager(pm) {}
+    MostrarTodosPagamentos(PagamentoManager* pm) : pagamentoManager(pm) {}
 
     void execute() override {
         std::vector<Pagamento> pagamentos = pagamentoManager->listarPagamentos();
@@ -347,7 +347,7 @@ public:
 
     void display() {
         std::cout << "Menu Principal" << std::endl;
-        for (size_t i = 0; i < useCases.size(); ++i) {
+        for (int i = 0; i < useCases.size(); ++i) {
             std::cout << i + 1 << ". " << useCases[i]->getName() << std::endl;
         }
         std::cout << "0. Sair" << std::endl;
@@ -363,13 +363,13 @@ public:
 };
 
 void setup(DaoManager* daoManager) {
-    Cliente cliente1("Cliente 1", "12345678901", "Endereco 1", "Telefone 1", "email1@example.com", CategoriaCliente::PESSOA_FISICA);
-    Cliente cliente2("Cliente 2", "98765432100", "Endereco 2", "Telefone 2", "email2@example.com", CategoriaCliente::PESSOA_JURIDICA);
+    Cliente cliente1("Cliente 1", "12345678901", "Endereco 1", "Telefone 1", "client1@email.com", CategoriaCliente::PESSOA_FISICA);
+    Cliente cliente2("Cliente 2", "98765432100", "Endereco 2", "Telefone 2", "client2@email.com", CategoriaCliente::PESSOA_JURIDICA);
     daoManager->getClienteDao()->adicionarCliente(cliente1);
     daoManager->getClienteDao()->adicionarCliente(cliente2);
 
     Pedido pedido1(1, std::time(nullptr), "Descricao Pedido 1", Situacao::ENTREGUE, "12345678901");
-    Pedido pedido2(2, std::time(nullptr), "Descricao Pedido 2", Situacao::ABERTO, "7777777777");
+    Pedido pedido2(2, std::time(nullptr), "Descricao Pedido 2", Situacao::ABERTO, "00736581979");
     daoManager->getPedidoDao()->addPedido(pedido1);
     daoManager->getPedidoDao()->addPedido(pedido2);
 }
@@ -388,8 +388,8 @@ int main() {
     menu.addUseCase(new RealizarPagamento(&pedidoManager, &clienteManager, &pagamentoManager));
     menu.addUseCase(new BuscarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new BuscarPagamento(&pedidoManager, &pagamentoManager, &clienteManager));
-    menu.addUseCase(new MostrarTodosOsPedidos(&daoManager));
-    menu.addUseCase(new MostrarTodosOsPagamentos(&pagamentoManager));
+    menu.addUseCase(new MostrarTodosPedidos(&daoManager));
+    menu.addUseCase(new MostrarTodosPagamentos(&pagamentoManager));
 
     int choice;
     do {

@@ -26,7 +26,7 @@ std::vector<Pedido> PedidoDao::listePedidos() {
 
 std::vector<Pedido> PedidoDao::busquePedidosCliente(const std::string& clienteDocumentoIdentificador) {
     std::vector<Pedido> pedidosCliente;
-    for (const auto& pedido : pedidos) {
+    for (const Pedido pedido : pedidos) {
         if (pedido.getClienteDocumentoIdentificador() == clienteDocumentoIdentificador) {
             pedidosCliente.push_back(pedido);
         }
