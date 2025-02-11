@@ -169,31 +169,31 @@ public:
 
         std::cout << "Pedidos do cliente " << cliente.getNome() << std::endl;
         std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador());
-        if (!pedidos.empty()) {
-            for (size_t i = 0; i < pedidos.size(); ++i) {
-                std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
-            }
-            int escolha;
-            std::cout << "Escolha o pedido para visualizar detalhes: ";
-            std::cin >> escolha;
-            if (escolha > 0 && escolha <= pedidos.size()) {
-                Pedido pedido = pedidos[escolha - 1];
-                std::cout << "Detalhes do Pedido ID: " << pedido.getId() << std::endl;
-                std::cout << "Descrição: " << pedido.getDescricao() << std::endl;
-                std::cout << "Situação: ";
-                switch (pedido.getSituacao()) {
-                    case Situacao::ENTREGUE: std::cout << "ENTREGUE"; break;
-                    case Situacao::RESOLVIDO: std::cout << "RESOLVIDO"; break;
-                    case Situacao::EM_ANDAMENTO: std::cout << "EM ANDAMENTO"; break;
-                    case Situacao::ABERTO: std::cout << "ABERTO"; break;
-                    case Situacao::CANCELADO: std::cout << "CANCELADO"; break;
-                }
-                std::cout << std::endl;
-            } else {
-                std::cout << "Escolha inválida" << std::endl;
-            }
-        } else {
+        if (pedidos.empty()) {
             std::cout << "Nenhum pedido encontrado para este cliente" << std::endl;
+            return;
+        }
+        for (size_t i = 0; i < pedidos.size(); ++i) {
+            std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
+        }
+        int escolha;
+        std::cout << "Escolha o pedido para visualizar detalhes: ";
+        std::cin >> escolha;
+        if (escolha > 0 && escolha <= pedidos.size()) {
+            Pedido pedido = pedidos[escolha - 1];
+            std::cout << "Detalhes do Pedido ID: " << pedido.getId() << std::endl;
+            std::cout << "Descrição: " << pedido.getDescricao() << std::endl;
+            std::cout << "Situação: ";
+            switch (pedido.getSituacao()) {
+                case Situacao::ENTREGUE: std::cout << "ENTREGUE"; break;
+                case Situacao::RESOLVIDO: std::cout << "RESOLVIDO"; break;
+                case Situacao::EM_ANDAMENTO: std::cout << "EM ANDAMENTO"; break;
+                case Situacao::ABERTO: std::cout << "ABERTO"; break;
+                case Situacao::CANCELADO: std::cout << "CANCELADO"; break;
+            }
+            std::cout << std::endl;
+        } else {
+            std::cout << "Escolha inválida" << std::endl;
         }
     }
 
@@ -213,10 +213,6 @@ public:
         : pedidoManager(pm), pagamentoManager(pgm), clienteManager(cm) {}
 
     void execute() override {
-        std::string documento;
-        std::cout << "Digite o documento do cliente para listar seus pedidos com pagamentos: ";
-        std::cin >> documento;
-
         std::vector<Pedido> pedidos = pedidoManager->listeTodosPedidos();
         if (!pedidos.empty()) {
             for (size_t i = 0; i < pedidos.size(); ++i) {
@@ -228,6 +224,10 @@ public:
             if (escolha > 0 && escolha <= pedidos.size()) {
                 Pedido pedido = pedidos[escolha - 1];
                 Pagamento pagamento = pagamentoManager->busquePagamento(pedido.getId());
+                if (pagamento.getValor() == 0) {
+                    std::cout << "Nenhum pagamento encontrado para este pedido" << std::endl;
+                    return;
+                }
                 std::cout << "Detalhes do Pagamento para Pedido ID: " << pedido.getId() << std::endl;
                 std::cout << "Valor: R$ " << pagamento.getValor() << std::endl;
                 std::cout << "Forma de Pagamento: ";
@@ -317,19 +317,9 @@ void setup(DaoManager* daoManager) {
     daoManager->getClienteDao()->adicionarCliente(cliente2);
 
     Pedido pedido1(1, std::time(nullptr), "Descricao Pedido 1", Situacao::ENTREGUE, "12345678901");
-    Pedido pedido2(2, std::time(nullptr), "Descricao Pedido 2", Situacao::ABERTO, "98765432109");
+    Pedido pedido2(2, std::time(nullptr), "Descricao Pedido 2", Situacao::ABERTO, "7777777777");
     daoManager->getPedidoDao()->addPedido(pedido1);
     daoManager->getPedidoDao()->addPedido(pedido2);
-
-    Pagamento pagamento1(1, 100, std::time(nullptr), FormaPagamento::DINHEIRO, SituacaoPagamento::QUITADO);
-    Pagamento pagamento2(2, 200, std::time(nullptr), FormaPagamento::CREDITO, SituacaoPagamento::EM_HAVER);
-    daoManager->getPagamentoDao()->adicionarPagamento(pagamento1);
-    daoManager->getPagamentoDao()->adicionarPagamento(pagamento2);
-
-    NotaFiscal notaFiscal1(1, std::time(nullptr), 1);
-    NotaFiscal notaFiscal2(2, std::time(nullptr), 2);
-    daoManager->getNotaFiscalDao()->addNotaFiscal(notaFiscal1);
-    daoManager->getNotaFiscalDao()->addNotaFiscal(notaFiscal2);
 }
 
 int main() {
