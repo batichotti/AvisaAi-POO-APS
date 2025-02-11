@@ -4,7 +4,6 @@ DaoManager::DaoManager() {
     clienteDao = new ClienteDao();
     pedidoDao = new PedidoDao();
     pagamentoDao = new PagamentoDao();
-    notaFiscalDao = new NotaFiscalDao();
 }
 
 PedidoDao* DaoManager::getPedidoDao() {
@@ -17,8 +16,4 @@ ClienteDao* DaoManager::getClienteDao() {
 
 PagamentoDao* DaoManager::getPagamentoDao() {
     return pagamentoDao;
-}
-
-NotaFiscalDao* DaoManager::getNotaFiscalDao() {
-    return notaFiscalDao;
 }

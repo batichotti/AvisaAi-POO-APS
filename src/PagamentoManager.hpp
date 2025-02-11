@@ -10,6 +10,7 @@ public:
     Pagamento buscarPagamentoPorPedido(const Pedido& pedido);
     void criarPagamento(int pedidoId, float valor, FormaPagamento forma, SituacaoPagamento situacao);
     Pagamento busquePagamento(int pedidoId);
+    std::vector<Pagamento> listarPagamentos();
 private:
     DaoManager* daoManager;
 };

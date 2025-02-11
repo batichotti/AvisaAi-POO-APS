@@ -93,14 +93,13 @@ public:
         std::cout << "Pedidos do cliente " << cliente.getNome() << std::endl;
         std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador(), Situacao::ABERTO);
         if (!pedidos.empty()) {
-            for (size_t i = 0; i < pedidos.size(); ++i) {
+            for (int i = 0; i < pedidos.size(); ++i) {
                 std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
             }
             int escolha;
             std::cout << "Escolha o pedido para realizar o pagamento: ";
             std::cin >> escolha;
             if (escolha > 0 && escolha <= pedidos.size()) {
-                
                 std::cout << "Escolha a forma de pagamento: " << std::endl;
                 std::cout << "1. Dinheiro" << std::endl;
                 std::cout << "2. Pix" << std::endl;
@@ -254,38 +253,19 @@ public:
     }
 };
 
-class Menu {
+class MostrarTodosOsPedidos : public UseCase {
 private:
-    std::vector<UseCase*> useCases;
     DaoManager* daoManager;
+
 public:
-    Menu(DaoManager* daoManager) : daoManager(daoManager){}
+    MostrarTodosOsPedidos(DaoManager* dm) : daoManager(dm) {}
 
-    void addUseCase(UseCase* useCase) {
-        useCases.push_back(useCase);
-    }
-
-    void display() {
-        std::cout << "Menu Principal" << std::endl;
-        for (size_t i = 0; i < useCases.size(); ++i) {
-            std::cout << i + 1 << ". " << useCases[i]->getName() << std::endl;
-        }
-        std::cout << useCases.size() + 1 << ". Mostrar todos os pedidos" << std::endl;
-        std::cout << "0. Sair" << std::endl;
-    }
-
-    void executeUseCase(int choice) {
-        if (choice > 0 && choice <= useCases.size()) {
-            useCases[choice - 1]->execute();
-        } else if (choice == useCases.size() + 1) {
-            mostrarTodosOsPedidos();
-        } else {
-            std::cout << "Escolha inválida" << std::endl;
-        }
-    }
-
-    void mostrarTodosOsPedidos() {
+    void execute() override {
         std::vector<Pedido> pedidos = daoManager->getPedidoDao()->listePedidos();
+        if (pedidos.empty()) {
+            std::cout << "Nenhum pedido encontrado." << std::endl;
+            return;
+        }
         for (const Pedido& pedido : pedidos) {
             std::string situacao;
             switch (pedido.getSituacao()) {
@@ -306,6 +286,78 @@ public:
                     break;
             }
             std::cout << "Pedido ID: " << pedido.getId() << ", Descrição: " << pedido.getDescricao() << ", Situação: " << situacao << std::endl;
+        }
+    }
+
+    std::string getName() override {
+        return "Mostrar Todos os Pedidos";
+    }
+};
+
+class MostrarTodosOsPagamentos : public UseCase {
+private:
+    PagamentoManager* pagamentoManager;
+
+public:
+    MostrarTodosOsPagamentos(PagamentoManager* pm) : pagamentoManager(pm) {}
+
+    void execute() override {
+        std::vector<Pagamento> pagamentos = pagamentoManager->listarPagamentos();
+        if (pagamentos.empty()) {
+            std::cout << "Nenhum pagamento encontrado." << std::endl;
+            return;
+        }
+        for (const Pagamento& pagamento : pagamentos) {
+            std::cout << "Pagamento Pedido ID: " << pagamento.getPedidoId() << ", Valor: R$ " << pagamento.getValor() << ", Forma: ";
+            switch (pagamento.getFormaPagamento()) {
+                case FormaPagamento::DINHEIRO: std::cout << "DINHEIRO"; break;
+                case FormaPagamento::PIX: std::cout << "PIX"; break;
+                case FormaPagamento::DEBITO: std::cout << "DEBITO"; break;
+                case FormaPagamento::CREDITO: std::cout << "CREDITO"; break;
+                case FormaPagamento::BOLETO: std::cout << "BOLETO"; break;
+                case FormaPagamento::CHEQUE: std::cout << "CHEQUE"; break;
+            }
+            std::cout << ", Situação: ";
+            switch (pagamento.getSituacao()) {
+                case SituacaoPagamento::EM_HAVER: std::cout << "EM HAVER"; break;
+                case SituacaoPagamento::QUITADO: std::cout << "QUITADO"; break;
+                case SituacaoPagamento::PARCIALMENTE_PAGO: std::cout << "PARCIALMENTE PAGO"; break;
+            }
+            std::cout << std::endl;
+        }
+    }
+
+    std::string getName() override {
+        return "Mostrar Todos os Pagamentos";
+    }
+};
+
+class Menu {
+private:
+    std::vector<UseCase*> useCases;
+    DaoManager* daoManager;
+    PagamentoManager* pagamentoManager;
+public:
+    Menu(DaoManager* daoManager, PagamentoManager* pagamentoManager) 
+        : daoManager(daoManager), pagamentoManager(pagamentoManager) {}
+
+    void addUseCase(UseCase* useCase) {
+        useCases.push_back(useCase);
+    }
+
+    void display() {
+        std::cout << "Menu Principal" << std::endl;
+        for (size_t i = 0; i < useCases.size(); ++i) {
+            std::cout << i + 1 << ". " << useCases[i]->getName() << std::endl;
+        }
+        std::cout << "0. Sair" << std::endl;
+    }
+
+    void executeUseCase(int choice) {
+        if (choice > 0 && choice <= useCases.size()) {
+            useCases[choice - 1]->execute();
+        } else {
+            std::cout << "Escolha inválida" << std::endl;
         }
     }
 };
@@ -331,11 +383,13 @@ int main() {
 
     setup(&daoManager);
 
-    Menu menu(&daoManager);
+    Menu menu(&daoManager, &pagamentoManager);
     menu.addUseCase(new RealizarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new RealizarPagamento(&pedidoManager, &clienteManager, &pagamentoManager));
     menu.addUseCase(new BuscarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new BuscarPagamento(&pedidoManager, &pagamentoManager, &clienteManager));
+    menu.addUseCase(new MostrarTodosOsPedidos(&daoManager));
+    menu.addUseCase(new MostrarTodosOsPagamentos(&pagamentoManager));
 
     int choice;
     do {

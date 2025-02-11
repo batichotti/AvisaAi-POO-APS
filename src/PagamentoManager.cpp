@@ -16,10 +16,14 @@ Pagamento PagamentoManager::buscarPagamentoPorPedido(const Pedido& pedido) {
 
 void PagamentoManager::criarPagamento(int pedidoId, float valor, FormaPagamento forma, SituacaoPagamento situacao) {
     int id = daoManager->getPagamentoDao()->listarPagamentos().size() + 1;
-    Pagamento pagamento(id, valor, std::time(nullptr), forma, situacao);
+    Pagamento pagamento(id, valor, std::time(nullptr), forma, situacao, pedidoId);
     daoManager->getPagamentoDao()->adicionarPagamento(pagamento);
 }
 
 Pagamento PagamentoManager::busquePagamento(int pedidoId) {
     return daoManager->getPagamentoDao()->busquePagamentoPorPedidoId(pedidoId);
+}
+
+std::vector<Pagamento> PagamentoManager::listarPagamentos() {
+    return daoManager->getPagamentoDao()->listarPagamentos();
 }

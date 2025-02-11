@@ -21,7 +21,7 @@ enum SituacaoPagamento {
 class Pagamento {
 public:
     Pagamento();
-    Pagamento(int id, float valor, std::time_t data, FormaPagamento forma, SituacaoPagamento situacao);
+    Pagamento(int id, float valor, std::time_t data, FormaPagamento forma, SituacaoPagamento situacao, int pedidoId);
 
     int getId() const;
     float getValor() const;

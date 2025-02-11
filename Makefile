@@ -272,78 +272,6 @@ src/DvoManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/DvoManager.cpp.s
 .PHONY : src/DvoManager.cpp.s
 
-src/NotaFiscal.obj: src/NotaFiscal.cpp.obj
-.PHONY : src/NotaFiscal.obj
-
-# target to build an object file
-src/NotaFiscal.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscal.cpp.obj
-.PHONY : src/NotaFiscal.cpp.obj
-
-src/NotaFiscal.i: src/NotaFiscal.cpp.i
-.PHONY : src/NotaFiscal.i
-
-# target to preprocess a source file
-src/NotaFiscal.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscal.cpp.i
-.PHONY : src/NotaFiscal.cpp.i
-
-src/NotaFiscal.s: src/NotaFiscal.cpp.s
-.PHONY : src/NotaFiscal.s
-
-# target to generate assembly for a file
-src/NotaFiscal.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscal.cpp.s
-.PHONY : src/NotaFiscal.cpp.s
-
-src/NotaFiscalDao.obj: src/NotaFiscalDao.cpp.obj
-.PHONY : src/NotaFiscalDao.obj
-
-# target to build an object file
-src/NotaFiscalDao.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalDao.cpp.obj
-.PHONY : src/NotaFiscalDao.cpp.obj
-
-src/NotaFiscalDao.i: src/NotaFiscalDao.cpp.i
-.PHONY : src/NotaFiscalDao.i
-
-# target to preprocess a source file
-src/NotaFiscalDao.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalDao.cpp.i
-.PHONY : src/NotaFiscalDao.cpp.i
-
-src/NotaFiscalDao.s: src/NotaFiscalDao.cpp.s
-.PHONY : src/NotaFiscalDao.s
-
-# target to generate assembly for a file
-src/NotaFiscalDao.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalDao.cpp.s
-.PHONY : src/NotaFiscalDao.cpp.s
-
-src/NotaFiscalManager.obj: src/NotaFiscalManager.cpp.obj
-.PHONY : src/NotaFiscalManager.obj
-
-# target to build an object file
-src/NotaFiscalManager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalManager.cpp.obj
-.PHONY : src/NotaFiscalManager.cpp.obj
-
-src/NotaFiscalManager.i: src/NotaFiscalManager.cpp.i
-.PHONY : src/NotaFiscalManager.i
-
-# target to preprocess a source file
-src/NotaFiscalManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalManager.cpp.i
-.PHONY : src/NotaFiscalManager.cpp.i
-
-src/NotaFiscalManager.s: src/NotaFiscalManager.cpp.s
-.PHONY : src/NotaFiscalManager.s
-
-# target to generate assembly for a file
-src/NotaFiscalManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\AVISAAI.dir\build.make CMakeFiles/AVISAAI.dir/src/NotaFiscalManager.cpp.s
-.PHONY : src/NotaFiscalManager.cpp.s
-
 src/Pagamento.obj: src/Pagamento.cpp.obj
 .PHONY : src/Pagamento.obj
 
@@ -563,15 +491,6 @@ help:
 	@echo ... src/DvoManager.obj
 	@echo ... src/DvoManager.i
 	@echo ... src/DvoManager.s
-	@echo ... src/NotaFiscal.obj
-	@echo ... src/NotaFiscal.i
-	@echo ... src/NotaFiscal.s
-	@echo ... src/NotaFiscalDao.obj
-	@echo ... src/NotaFiscalDao.i
-	@echo ... src/NotaFiscalDao.s
-	@echo ... src/NotaFiscalManager.obj
-	@echo ... src/NotaFiscalManager.i
-	@echo ... src/NotaFiscalManager.s
 	@echo ... src/Pagamento.obj
 	@echo ... src/Pagamento.i
 	@echo ... src/Pagamento.s
