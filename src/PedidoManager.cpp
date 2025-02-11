@@ -16,6 +16,10 @@ std::vector<Pedido> PedidoManager::listePedidos(std::string documentoIdentificad
     }
 }
 
+std::vector<Pedido> PedidoManager::listeTodosPedidos() {
+    return daoPedido->listePedidos();
+}
+
 std::vector<Pedido> PedidoManager::listePedidosCliente(std::string documentoIdentificador, Situacao situacao) {
     if (clienteDvo->validarDocumento(documentoIdentificador)) {
         return daoPedido->busquePedidosClienteSituacao(documentoIdentificador, situacao);
@@ -41,6 +45,6 @@ void PedidoManager::realizarPedido(const std::string& documento, const std::stri
     if (cliente.getDocumentoIdentificador().empty()) {
         std::cout << "Cliente não encontrado" << std::endl;
     }
-    int id = daoPedido->getAllPedidos().size() + 1;
+    int id = daoPedido->listePedidos().size() + 1;
     criePedido(documento, id, date, descricao);
 }

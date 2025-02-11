@@ -148,26 +148,6 @@ public:
     }
 };
 
-class AtualizarSituacaoPedido : public UseCase {
-public:
-    void execute() override {
-        std::cout << "Executando Atualizar Situação do Pedido" << std::endl;
-    }
-    std::string getName() override {
-        return "Atualizar Situacao Pedido";
-    }
-};
-
-class AtualizarSituacaoPagamento : public UseCase {
-public:
-    void execute() override {
-        std::cout << "Executando Atualizar Situação do Pagamento" << std::endl;
-    }
-    std::string getName() override {
-        return "Atualizar Situacao Pagamento";
-    }
-};
-
 class BuscarPedido : public UseCase {
 private:
     PedidoManager* pedidoManager;
@@ -237,14 +217,7 @@ public:
         std::cout << "Digite o documento do cliente para listar seus pedidos com pagamentos: ";
         std::cin >> documento;
 
-        Cliente cliente = clienteManager->busqueCliente(documento);
-        if (cliente.getDocumentoIdentificador().empty()) {
-            std::cout << "Documento do cliente inválido" << std::endl;
-            return;
-        }
-
-        std::cout << "Pedidos do cliente " << cliente.getNome() << " com pagamentos" << std::endl;
-        std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador());
+        std::vector<Pedido> pedidos = pedidoManager->listeTodosPedidos();
         if (!pedidos.empty()) {
             for (size_t i = 0; i < pedidos.size(); ++i) {
                 std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
@@ -312,7 +285,7 @@ public:
     }
 
     void mostrarTodosOsPedidos() {
-        std::vector<Pedido> pedidos = daoManager->getPedidoDao()->getAllPedidos();
+        std::vector<Pedido> pedidos = daoManager->getPedidoDao()->listePedidos();
         for (const Pedido& pedido : pedidos) {
             std::string situacao;
             switch (pedido.getSituacao()) {
@@ -371,8 +344,6 @@ int main() {
     Menu menu(&daoManager);
     menu.addUseCase(new RealizarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new RealizarPagamento(&pedidoManager, &clienteManager, &pagamentoManager));
-    menu.addUseCase(new AtualizarSituacaoPedido());
-    menu.addUseCase(new AtualizarSituacaoPagamento());
     menu.addUseCase(new BuscarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new BuscarPagamento(&pedidoManager, &pagamentoManager, &clienteManager));
 

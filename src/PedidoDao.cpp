@@ -20,7 +20,7 @@ Pedido PedidoDao::getPedidoById(int id) {
     return Pedido();
 }
 
-std::vector<Pedido> PedidoDao::getAllPedidos() {
+std::vector<Pedido> PedidoDao::listePedidos() {
     return pedidos;
 }
 

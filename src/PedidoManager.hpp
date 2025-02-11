@@ -12,6 +12,7 @@ class PedidoManager {
 public:
     PedidoManager(DaoManager* daoManager, DvoManager* dvoManager);
     std::vector<Pedido> listePedidos(std::string documentoIdentificador);
+    std::vector<Pedido> listeTodosPedidos();
     std::vector<Pedido> listePedidosCliente(std::string documentoIdentificador, Situacao situacao = Situacao::ABERTO);
     void criePedido(const std::string& clienteDocumentoIdentificador, int id, std::time_t date, const std::string& descricao);
     void realizarPedido(const std::string& documento, const std::string& descricao, std::time_t date = std::time(nullptr));
