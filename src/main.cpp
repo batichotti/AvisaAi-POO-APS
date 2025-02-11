@@ -422,6 +422,29 @@ public:
     }
 };
 
+class MostrarTodosClientes : public UseCase {
+private:
+    ClienteManager* clienteManager;
+
+public:
+    MostrarTodosClientes(ClienteManager* cm) : clienteManager(cm) {}
+
+    void execute() override {
+        std::vector<Cliente> clientes = clienteManager->listeClientes();
+        if (clientes.empty()) {
+            std::cout << "Nenhum cliente encontrado." << std::endl;
+            return;
+        }
+        for (const Cliente& cliente : clientes) {
+            std::cout << "Cliente: " << cliente.getNome() << ", Documento: " << cliente.getDocumentoIdentificador() << std::endl;
+        }
+    }
+
+    std::string getName() override {
+        return "Mostrar Todos os Clientes";
+    }
+};
+
 class Menu {
 private:
     std::vector<UseCase*> useCases;
@@ -454,7 +477,7 @@ public:
 
 void setup(DaoManager* daoManager) {
     Cliente cliente1("Cliente 1", "12345678901", "Endereco 1", "Telefone 1", "client1@email.com", CategoriaCliente::PESSOA_FISICA);
-    Cliente cliente2("Cliente 2", "98765432100", "Endereco 2", "Telefone 2", "client2@email.com", CategoriaCliente::PESSOA_JURIDICA);
+    Cliente cliente2("Cliente 2", "00736581979", "Endereco 2", "Telefone 2", "client2@email.com", CategoriaCliente::PESSOA_JURIDICA);
     daoManager->getClienteDao()->adicionarCliente(cliente1);
     daoManager->getClienteDao()->adicionarCliente(cliente2);
 
@@ -479,6 +502,7 @@ int main() {
     menu.addUseCase(new BuscarPedido(&pedidoManager, &clienteManager));
     menu.addUseCase(new BuscarPagamento(&pedidoManager, &pagamentoManager, &clienteManager));
     menu.addUseCase(new AtualizarSituacaoPedido(&pedidoManager, &clienteManager));
+    menu.addUseCase(new MostrarTodosClientes(&clienteManager));
     menu.addUseCase(new MostrarTodosPedidos(&daoManager));
     menu.addUseCase(new MostrarTodosPagamentos(&pagamentoManager));
 
