@@ -201,6 +201,96 @@ public:
     }
 };
 
+class AtualizarSituacaoPedido : public UseCase {
+private:
+    PedidoManager* pedidoManager;
+    ClienteManager* clienteManager;
+
+public:
+    AtualizarSituacaoPedido(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
+
+    void execute() override {
+        std::vector<Cliente> clientes = clienteManager->listeClientes();
+        if (clientes.empty()) {
+            std::cout << "Nenhum cliente encontrado." << std::endl;
+            return;
+        }
+
+        for (int i = 0; i < clientes.size(); ++i) {
+            std::cout << i + 1 << ". Cliente: " << clientes[i].getNome() << ", Documento: " << clientes[i].getDocumentoIdentificador() << std::endl;
+        }
+
+        int escolhaCliente;
+        std::cout << "Escolha o cliente (0 para sair): ";
+        std::cin >> escolhaCliente;
+        if (escolhaCliente == 0) return;
+
+        if (escolhaCliente > 0 && escolhaCliente <= clientes.size()) {
+            Cliente cliente = clientes[escolhaCliente - 1];
+            std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador());
+            if (pedidos.empty()) {
+                std::cout << "Nenhum pedido encontrado para este cliente." << std::endl;
+                return;
+            }
+
+            for (int i = 0; i < pedidos.size(); ++i) {
+                std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
+            }
+
+            int escolhaPedido;
+            std::cout << "Escolha o pedido (0 para sair): ";
+            std::cin >> escolhaPedido;
+            if (escolhaPedido == 0) return;
+
+            if (escolhaPedido > 0 && escolhaPedido <= pedidos.size()) {
+                Pedido pedido = pedidos[escolhaPedido - 1];
+                std::cout << "Situação atual do Pedido ID: " << pedido.getId() << ": ";
+                switch (pedido.getSituacao()) {
+                    case Situacao::ENTREGUE: std::cout << "ENTREGUE"; break;
+                    case Situacao::RESOLVIDO: std::cout << "RESOLVIDO"; break;
+                    case Situacao::EM_ANDAMENTO: std::cout << "EM ANDAMENTO"; break;
+                    case Situacao::ABERTO: std::cout << "ABERTO"; break;
+                    case Situacao::CANCELADO: std::cout << "CANCELADO"; break;
+                }
+                std::cout << std::endl;
+
+                std::cout << "Escolha a nova situação: " << std::endl;
+                std::cout << "1. ENTREGUE" << std::endl;
+                std::cout << "2. RESOLVIDO" << std::endl;
+                std::cout << "3. EM ANDAMENTO" << std::endl;
+                std::cout << "4. ABERTO" << std::endl;
+                std::cout << "5. CANCELADO" << std::endl;
+
+                int novaSituacao;
+                std::cin >> novaSituacao;
+
+                Situacao situacao;
+                switch (novaSituacao) {
+                    case 1: situacao = Situacao::ENTREGUE; break;
+                    case 2: situacao = Situacao::RESOLVIDO; break;
+                    case 3: situacao = Situacao::EM_ANDAMENTO; break;
+                    case 4: situacao = Situacao::ABERTO; break;
+                    case 5: situacao = Situacao::CANCELADO; break;
+                    default: 
+                        std::cout << "Situação inválida" << std::endl;
+                        return;
+                }
+
+                pedidoManager->atualizeSituacaoPedido(pedido.getId(), situacao);
+                std::cout << "Situação do pedido ID: " << pedido.getId() << " atualizada com sucesso." << std::endl;
+            } else {
+                std::cout << "Escolha inválida" << std::endl;
+            }
+        } else {
+            std::cout << "Escolha inválida" << std::endl;
+        }
+    }
+
+    std::string getName() override {
+        return "Atualizar Situação do Pedido";
+    }
+};
+
 class BuscarPagamento : public UseCase {
 private:
     PedidoManager* pedidoManager;
@@ -329,96 +419,6 @@ public:
 
     std::string getName() override {
         return "Mostrar Todos os Pagamentos";
-    }
-};
-
-class AtualizarSituacaoPedido : public UseCase {
-private:
-    PedidoManager* pedidoManager;
-    ClienteManager* clienteManager;
-
-public:
-    AtualizarSituacaoPedido(PedidoManager* pm, ClienteManager* cm) : pedidoManager(pm), clienteManager(cm) {}
-
-    void execute() override {
-        std::vector<Cliente> clientes = clienteManager->listeClientes();
-        if (clientes.empty()) {
-            std::cout << "Nenhum cliente encontrado." << std::endl;
-            return;
-        }
-
-        for (int i = 0; i < clientes.size(); ++i) {
-            std::cout << i + 1 << ". Cliente: " << clientes[i].getNome() << ", Documento: " << clientes[i].getDocumentoIdentificador() << std::endl;
-        }
-
-        int escolhaCliente;
-        std::cout << "Escolha o cliente (0 para sair): ";
-        std::cin >> escolhaCliente;
-        if (escolhaCliente == 0) return;
-
-        if (escolhaCliente > 0 && escolhaCliente <= clientes.size()) {
-            Cliente cliente = clientes[escolhaCliente - 1];
-            std::vector<Pedido> pedidos = pedidoManager->listePedidosCliente(cliente.getDocumentoIdentificador());
-            if (pedidos.empty()) {
-                std::cout << "Nenhum pedido encontrado para este cliente." << std::endl;
-                return;
-            }
-
-            for (int i = 0; i < pedidos.size(); ++i) {
-                std::cout << i + 1 << ". Pedido ID: " << pedidos[i].getId() << ", Descrição: " << pedidos[i].getDescricao() << std::endl;
-            }
-
-            int escolhaPedido;
-            std::cout << "Escolha o pedido (0 para sair): ";
-            std::cin >> escolhaPedido;
-            if (escolhaPedido == 0) return;
-
-            if (escolhaPedido > 0 && escolhaPedido <= pedidos.size()) {
-                Pedido pedido = pedidos[escolhaPedido - 1];
-                std::cout << "Situação atual do Pedido ID: " << pedido.getId() << ": ";
-                switch (pedido.getSituacao()) {
-                    case Situacao::ENTREGUE: std::cout << "ENTREGUE"; break;
-                    case Situacao::RESOLVIDO: std::cout << "RESOLVIDO"; break;
-                    case Situacao::EM_ANDAMENTO: std::cout << "EM ANDAMENTO"; break;
-                    case Situacao::ABERTO: std::cout << "ABERTO"; break;
-                    case Situacao::CANCELADO: std::cout << "CANCELADO"; break;
-                }
-                std::cout << std::endl;
-
-                std::cout << "Escolha a nova situação: " << std::endl;
-                std::cout << "1. ENTREGUE" << std::endl;
-                std::cout << "2. RESOLVIDO" << std::endl;
-                std::cout << "3. EM ANDAMENTO" << std::endl;
-                std::cout << "4. ABERTO" << std::endl;
-                std::cout << "5. CANCELADO" << std::endl;
-
-                int novaSituacao;
-                std::cin >> novaSituacao;
-
-                Situacao situacao;
-                switch (novaSituacao) {
-                    case 1: situacao = Situacao::ENTREGUE; break;
-                    case 2: situacao = Situacao::RESOLVIDO; break;
-                    case 3: situacao = Situacao::EM_ANDAMENTO; break;
-                    case 4: situacao = Situacao::ABERTO; break;
-                    case 5: situacao = Situacao::CANCELADO; break;
-                    default: 
-                        std::cout << "Situação inválida" << std::endl;
-                        return;
-                }
-
-                pedidoManager->atualizeSituacaoPedido(pedido.getId(), situacao);
-                std::cout << "Situação do pedido ID: " << pedido.getId() << " atualizada com sucesso." << std::endl;
-            } else {
-                std::cout << "Escolha inválida" << std::endl;
-            }
-        } else {
-            std::cout << "Escolha inválida" << std::endl;
-        }
-    }
-
-    std::string getName() override {
-        return "Atualizar Situação do Pedido";
     }
 };
 
